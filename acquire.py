@@ -19,7 +19,7 @@ def get_items_data():
         if response.ok:
             data = response.json()
             items = pd.DataFrame(data['payload']['items'])
-            items.to_csv(filenamename)
+            items.to_csv(filename)
         else:
             print(response.status_codeus_code)
     return items
@@ -75,9 +75,11 @@ def get_sales_data():
     return sales
 
 
-# ### 4. Combine the data from your three separate dataframes into one large dataframe.
-
-def merge_data(sales, items, stores):
+# ### 4. Combine the data from your three separate dataframes into one large dataframe
+def merge_data():
+    sales = get_sales_data()
+    items = get_items_data()
+    stores = get_stores_data()
     sales = sales.rename(columns={'store': 'store_id', 'item': 'item_id'})
     df = sales.join(stores.set_index('store_id'), on='store_id')
     df = df.join(items.set_index('item_id'), on='item_id')
@@ -89,7 +91,7 @@ def merge_data(sales, items, stores):
 def fetch_power_data():
     url = 'https://raw.githubusercontent.com/jenfly/opsd/master/opsd_germany_daily.csv'
     response = requests.get(url)
-    filename = 'power_data.csv'
+    filename = 'popsd_germany_daily.csv'
     if os.path.isfile(filename):
         df = pd.read_csv(filename, index_col=[0])
     else:
