@@ -91,7 +91,7 @@ def merge_data():
 def fetch_power_data():
     url = 'https://raw.githubusercontent.com/jenfly/opsd/master/opsd_germany_daily.csv'
     response = requests.get(url)
-    filename = 'popsd_germany_daily.csv'
+    filename = 'opsd_germany_daily.csv'
     if os.path.isfile(filename):
         df = pd.read_csv(filename, index_col=[0])
     else:
